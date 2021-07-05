@@ -1,5 +1,5 @@
 {
-  "name": "todo",
+  "name": "chat-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,7 +14,10 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "eslint": "7.29.0",
-    "eslint-config-next": "11.0.1"
+    "eslint": "^7.29.0",
+    "eslint-config-next": "^11.0.1",
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.2.15",
+    "tailwindcss": "^2.1.2"
   }
 }
