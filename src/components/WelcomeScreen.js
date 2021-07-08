@@ -38,6 +38,10 @@ function WelcomeScreen() {
         You can create chat using the button above, If you have chats check out
         {width <= 768 ? " menu icon 👆" : " sidebar 👈"}
       </p>
+      <p className=" italic text-sm">
+        <span className="font-bold text-lg">Note: </span>
+        You can delete your messages by long pressing/holding them
+      </p>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useCollection } from "react-firebase-hooks/firestore";
 import {
+  ArrowCircleDownIcon,
   EmojiHappyIcon,
   MicrophoneIcon,
   PaperClipIcon,
@@ -12,6 +13,7 @@ import { useSession } from "next-auth/client";
 import firebase from "firebase";
 import { useSidebar } from "../contexts/SidebarContext";
 import useMediaQuery from "../utils/useMediaQuery";
+import SendIcon from "@material-ui/icons/Send";
 
 function ChatScreen({ chat, messages }) {
   const [width] = useMediaQuery();
@@ -31,11 +33,17 @@ function ChatScreen({ chat, messages }) {
   );
 
   const scrollToBottom = () => {
-    endOfMessagesRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    try {
+      endOfMessagesRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } catch (e) {
+      console.warn(e);
+    }
   };
+
+  useEffect(scrollToBottom, [messages, router.query.id]);
 
   const showMessages = () => {
     if (messagesSnapshot) {
@@ -44,6 +52,7 @@ function ChatScreen({ chat, messages }) {
           key={message.id}
           user={message.data().user}
           message={{
+            id: message.id,
             ...message.data(),
             timestamp: message.data().timestamp?.toDate().getTime(),
           }}
@@ -101,9 +110,15 @@ function ChatScreen({ chat, messages }) {
           <div className="mb-44" ref={endOfMessagesRef} />
         </div>
       )}
+      {/* <ArrowCircleDownIcon
+        onClick={scrollToBottom}
+        className={`${
+          scrollButtonVisible ? "inline" : "hidden"
+        } absolute bottom-32 bg-cyan-700 rounded-full right-10 h-11 z-50 cursor-pointer`}
+      /> */}
 
       <form className="absolute bottom-0 flex space-x-5 p-4 md:p-5 dark:bg-gray-600 bg-gray-200 rounded-full md:rounded-xl left-0 md:left-5 right-0 md:right-5 m-5">
-        <EmojiHappyIcon className="h-6 cursor-pointer" />
+        <EmojiHappyIcon className="hidden md:block h-6 cursor-pointer" />
         <input
           ref={inputRef}
           value={message}
@@ -112,15 +127,16 @@ function ChatScreen({ chat, messages }) {
           placeholder="Type a message here..."
           type="text"
         />
-        <PaperClipIcon className="h-7 cursor-pointer" />
-        <MicrophoneIcon className="h-6 cursor-pointer" />
+        <PaperClipIcon className="hidden md:block h-7 cursor-pointer" />
+        <MicrophoneIcon className="hidden md:block h-6 cursor-pointer" />
+
         <button
           disabled={!message}
           onClick={sendMessage}
           type="submit"
-          className="hidden"
+          className="md:hidden"
         >
-          Send Message
+          <SendIcon />
         </button>
       </form>
     </div>
