@@ -12,7 +12,7 @@ import { useRouter } from "next/dist/client/router";
 import { useSidebar } from "../contexts/SidebarContext";
 
 function Navbar() {
-  const { setVisible, visible } = useSidebar();
+  const { setVisible } = useSidebar();
   const [session] = useSession();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -115,7 +115,7 @@ function Navbar() {
                 </div>
                 <form className="bg-gray-50 px-4 py-3 flex sm:px-6">
                   <input
-                    className="border-b-2 outline-none border-gray-500 flex-grow"
+                    className="border-b-2 outline-none border-gray-500 flex-grow flex-shrink"
                     ref={inputRef}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}

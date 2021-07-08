@@ -1,5 +1,4 @@
 import { useCollection } from "react-firebase-hooks/firestore";
-import getRecepientEmail from "../utils/getRecepientEmail";
 import {
   EmojiHappyIcon,
   MicrophoneIcon,
@@ -21,6 +20,7 @@ function ChatScreen({ chat, messages }) {
   const endOfMessagesRef = useRef(null);
   const [message, setMessage] = useState("");
   const router = useRouter();
+  const inputRef = useRef();
 
   const [messagesSnapshot] = useCollection(
     db
@@ -81,6 +81,10 @@ function ChatScreen({ chat, messages }) {
     width > 768 && setVisible(false);
   }, [width]);
 
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
     <div
       className={`${
@@ -101,6 +105,7 @@ function ChatScreen({ chat, messages }) {
       <form className="absolute bottom-0 flex space-x-5 p-4 md:p-5 dark:bg-gray-600 bg-gray-200 rounded-full md:rounded-xl left-0 md:left-5 right-0 md:right-5 m-5">
         <EmojiHappyIcon className="h-6 cursor-pointer" />
         <input
+          ref={inputRef}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           className="flex-grow bg-transparent outline-none px-3"

@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 function Avatar({ src, email }) {
-  console.log(src);
   return src ? (
     <Image
       src={`${src}`}

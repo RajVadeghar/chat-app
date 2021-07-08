@@ -29,7 +29,9 @@ function WelcomeScreen() {
         />
         <p>
           Welcome,{" "}
-          <span className="text-xl font-semibold">{session.user.name}</span>
+          <span className="text-xl font-semibold whitespace-nowrap">
+            {session.user.name}
+          </span>
         </p>
       </div>
       <p className=" italic text-sm">
