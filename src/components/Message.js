@@ -33,18 +33,19 @@ function Message({ user, message }) {
       .delete();
   };
 
-  const bind = useLongPress(() => {
-    setOpen(width < 768 && true);
-  });
+  /* const bind = useLongPress(() => {
+    sender && setOpen(width < 768 && true);
+  }); */
 
   return (
     <div
-      {...bind}
+      // {...bind}
+      onDoubleClick={() => sender && setOpen(true)}
       className={`${
         sender
           ? "dark:bg-gray-700 ml-auto text-left bg-gray-200"
           : "bg-blue-600 text-left text-white opacity-90"
-      } relative p-4 my-3 rounded-full w-max max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl break-all md:pr-6 md:pt-6 group`}
+      } relative p-4 my-3 rounded-lg w-max max-w-xs  sm:max-w-sm md:max-w-md lg:max-w-2xl break-words md:pr-6 md:pt-6 group`}
     >
       <Modal
         open={open}
@@ -57,9 +58,9 @@ function Message({ user, message }) {
         id={message.id}
       />
       {sender ? (
-        <div className="absolute dark:bg-gray-700 bg-gray-200 h-3 w-5 top-0 right-2 -rotate-12 rounded-b-full" />
+        <div className="absolute dark:bg-gray-700 bg-gray-200 h-3 w-5 top-0 -right-1  rounded-b-full" />
       ) : (
-        <div className="absolute bg-blue-600  h-3 w-5 top-0 left-2 rotate-12 rounded-b-full" />
+        <div className="absolute bg-blue-600  h-3 w-5 top-0 -left-1 rounded-b-full" />
       )}
       {sender && (
         <ChevronDownIcon

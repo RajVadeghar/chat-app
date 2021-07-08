@@ -105,7 +105,7 @@ function ChatScreen({ chat, messages }) {
           No messages yet, Start a message 👇
         </div>
       ) : (
-        <div className="relative h-full mx-5 md:mx-10 no-scrollbar overflow-y-auto">
+        <div className="relative h-full px-5 md:mx-5 no-scrollbar overflow-y-auto">
           {showMessages()}
           <div className="mb-44" ref={endOfMessagesRef} />
         </div>
@@ -134,9 +134,9 @@ function ChatScreen({ chat, messages }) {
           disabled={!message}
           onClick={sendMessage}
           type="submit"
-          className="md:hidden"
+          className="hidden"
         >
-          <SendIcon />
+          Send Message
         </button>
       </form>
     </div>

@@ -35,7 +35,7 @@ function SidebarChat({ id, users, currentChatId }) {
     >
       <div className="h-11 w-11 transition duration-500 ease-in-out group-hover:scale-125 z-30">
         {recepient ? (
-          <Avatar src={recepient?.image} />
+          <Avatar src={recepient?.image} email={recepientEmail} />
         ) : (
           <Avatar email={recepientEmail} />
         )}

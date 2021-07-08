@@ -40,7 +40,7 @@ function WelcomeScreen() {
       </p>
       <p className=" italic text-sm">
         <span className="font-bold text-lg">Note: </span>
-        You can delete your messages by long pressing/holding them
+        You can delete your messages by double clicking them
       </p>
     </div>
   );
