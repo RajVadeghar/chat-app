@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  }
+
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll {
+    @apply:: -webkit-scrollbar: : -webkit-scrollbar-track: : -webkit-scrollbar-thumb:
+      : -webkit-scrollbar-thumb: window-inactive;
+  }
+
+  .heigtWithoutNavbar {
+    height: calc(100vh - theme("spacing.20"));
+  }
+
+  .messageInput {
+    width: calc(100% - (25% + theme("spacing.10")));
+  }
+
+  .screenHeight {
+    @apply heigtWithoutNavbar;
+  }
+
+  .messageInputWidth {
+    @apply messageInput;
+  }
+}
