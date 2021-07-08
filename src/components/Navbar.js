@@ -1,6 +1,6 @@
 import { Switch } from "@headlessui/react";
 import { useEffect } from "react";
-import { useTheme } from "../contexts/themeContext";
+import { useTheme } from "../contexts/ThemeContext";
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useSession } from "next-auth/client";

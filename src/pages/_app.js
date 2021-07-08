@@ -1,7 +1,7 @@
-import { ThemeProvider } from "../contexts/ThemeContext";
 import "../styles/globals.css";
 import { Provider } from "next-auth/client";
 import { SidebarProvider } from "../contexts/SidebarContext";
+import { ThemeProvider } from "../contexts/ThemeContext";
 
 function MyApp({ Component, pageProps }) {
   return (
