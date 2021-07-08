@@ -1,4 +1,4 @@
-import { ThemeProvider } from "../contexts/themeContext";
+import { ThemeProvider } from "../contexts/ThemeContext";
 import "../styles/globals.css";
 import { Provider } from "next-auth/client";
 import { SidebarProvider } from "../contexts/SidebarContext";
