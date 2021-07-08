@@ -1,13 +1,13 @@
 import firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDc2geyO-CUmlV6nCYdZfZtPVOtngphfXM",
-  authDomain: "chat-app-8a91d.firebaseapp.com",
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
   projectId: "chat-app-8a91d",
-  storageBucket: "chat-app-8a91d.appspot.com",
-  messagingSenderId: "922530453636",
-  appId: "1:922530453636:web:39a16c0231adc64d448ad1",
-  measurementId: "G-1L1008X2PQ",
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID,
 };
 
 const app = firebase.apps.length
