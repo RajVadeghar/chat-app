@@ -10,12 +10,15 @@ import { signOut } from "next-auth/client";
 import { HomeIcon, LogoutIcon, MenuAlt1Icon } from "@heroicons/react/outline";
 import { useRouter } from "next/dist/client/router";
 import { useSidebar } from "../contexts/SidebarContext";
+import useMediaQuery from "../utils/useMediaQuery";
 
 function Navbar() {
+  const [width] = useMediaQuery();
+
   const inputRef = useRef();
   const cancelButtonRef = useRef(null);
   const [email, setEmail] = useState("");
-  const { setVisible } = useSidebar();
+  const { visible, setVisible } = useSidebar();
   const [session] = useSession();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -155,19 +158,25 @@ function Navbar() {
       <div className="flex space-x-5 items-center">
         <HomeIcon
           onClick={() => router.push("/")}
-          className="h-7 cursor-pointer md:hidden"
+          className={`${
+            width < 768 && !visible ? "hidden" : "inline-block"
+          } h-7 cursor-pointer md:hidden`}
         />
+
         <button
           onClick={() => setOpen(true)}
-          className="p-3 px-5 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-3xl outline-none"
+          className={`${
+            width < 768 && visible ? "hidden" : "inline-block"
+          } p-3 px-5 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-3xl outline-none`}
         >
           Create Chat
         </button>
+
         <Switch
           checked={enabled}
           onChange={setEnabled}
-          className={`${
-            enabled ? "bg-blue-600" : "bg-gray-400"
+          className={`${enabled ? "bg-blue-600" : "bg-gray-400"} ${
+            width < 768 && visible ? "hidden" : "inline-block"
           } relative inline-flex items-center h-6 rounded-full w-11 group`}
         >
           <div className="absolute top-0 flex-col items-center hidden mt-8 group-hover:flex rounded-xl">
@@ -183,8 +192,12 @@ function Navbar() {
             } inline-block w-4 h-4 transform bg-white rounded-full`}
           />
         </Switch>
-
-        <LogoutIcon onClick={logout} className="h-8 cursor-pointer" />
+        <LogoutIcon
+          onClick={logout}
+          className={`${
+            width < 768 && visible ? "hidden" : "inline-block"
+          } h-8 cursor-pointer`}
+        />
       </div>
     </div>
   );
