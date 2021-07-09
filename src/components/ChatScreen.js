@@ -1,6 +1,5 @@
 import { useCollection } from "react-firebase-hooks/firestore";
 import {
-  ArrowCircleDownIcon,
   EmojiHappyIcon,
   MicrophoneIcon,
   PaperClipIcon,
@@ -13,7 +12,7 @@ import { useSession } from "next-auth/client";
 import firebase from "firebase";
 import { useSidebar } from "../contexts/SidebarContext";
 import useMediaQuery from "../utils/useMediaQuery";
-import SendIcon from "@material-ui/icons/Send";
+import FlipMove from "react-flip-move";
 
 function ChatScreen({ chat, messages }) {
   const [width] = useMediaQuery();
@@ -23,7 +22,6 @@ function ChatScreen({ chat, messages }) {
   const [message, setMessage] = useState("");
   const router = useRouter();
   const inputRef = useRef();
-
   const [messagesSnapshot] = useCollection(
     db
       ?.collection("chats")
@@ -43,7 +41,19 @@ function ChatScreen({ chat, messages }) {
     }
   };
 
-  useEffect(scrollToBottom, [messages, router.query.id]);
+  useEffect(() => {
+    const scrollToBottom = () => {
+      try {
+        endOfMessagesRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+    scrollToBottom();
+  }, [messages, messagesSnapshot, router.query.id]);
 
   const showMessages = () => {
     if (messagesSnapshot) {
@@ -106,8 +116,8 @@ function ChatScreen({ chat, messages }) {
         </div>
       ) : (
         <div className="relative h-full px-5 md:mx-5 no-scrollbar overflow-y-auto">
-          {showMessages()}
-          <div className="mb-44" ref={endOfMessagesRef} />
+          <FlipMove>{showMessages()}</FlipMove>
+          <div className="mb-24" ref={endOfMessagesRef} />
         </div>
       )}
       {/* <ArrowCircleDownIcon
