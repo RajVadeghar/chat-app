@@ -2,28 +2,15 @@ import { ChevronDownIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
-<<<<<<< HEAD
-import { Fragment, forwardRef, useState, useRef } from "react";
-=======
+import { Fragment, useState, useRef } from "react";
 import { useState } from "react";
 import { useLongPress } from "use-long-press";
->>>>>>> parent of 9de0354... add animation
 import db from "../firebase";
 import useMediaQuery from "../utils/useMediaQuery";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
-<<<<<<< HEAD
-const Message = ({ user, message }) => {
-  const cancelButtonRef = useRef(null);
-=======
-const DELETE_TITLE = "Delete Message";
-const DELETE_MESSAGE =
-  "By clicking delete button you'll no longer see this message";
-const DELETE_BUTTON = "Delete";
-
 function Message({ user, message }) {
->>>>>>> parent of 9de0354... add animation
   const router = useRouter();
   const [width] = useMediaQuery();
   const [session] = useSession();
@@ -166,10 +153,6 @@ function Message({ user, message }) {
       {message.message}
     </div>
   );
-<<<<<<< HEAD
-};
-=======
 }
->>>>>>> parent of 9de0354... add animation
 
 export default Message;

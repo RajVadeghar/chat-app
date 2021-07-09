@@ -43,11 +43,7 @@ function ChatScreen({ chat, messages }) {
     }
   };
 
-<<<<<<< HEAD
   useEffect(scrollToBottom, [router.query.id]);
-=======
-  useEffect(scrollToBottom, [messages, router.query.id]);
->>>>>>> parent of 9de0354... add animation
 
   const showMessages = () => {
     if (messagesSnapshot) {
@@ -111,11 +107,7 @@ function ChatScreen({ chat, messages }) {
       ) : (
         <div className="relative h-full px-5 md:mx-5 no-scrollbar overflow-y-auto">
           {showMessages()}
-<<<<<<< HEAD
           <div className="mb-24 md:mb-28" ref={endOfMessagesRef} />
-=======
-          <div className="mb-44" ref={endOfMessagesRef} />
->>>>>>> parent of 9de0354... add animation
         </div>
       )}
       {/* <ArrowCircleDownIcon
