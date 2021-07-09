@@ -110,7 +110,7 @@ function Navbar() {
                     </div>
                   </div>
                 </div>
-                <div className={`sm:flex bg-gray-50 px-4 py-3 sm:px-6 `}>
+                <div className="sm:flex bg-gray-50 px-4 py-3 sm:px-6 ">
                   <input
                     className="mb-3 sm:mt-0 w-full md:w-auto outline-none border-gray-500 flex-grow flex-shrink text-center"
                     placeholder="Enter your friend's email"
@@ -121,7 +121,7 @@ function Navbar() {
                   />
                   <button
                     type="button"
-                    className={`bg-blue-600 focus:ring-blue-500 hover:bg-blue-700 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm`}
+                    className="bg-blue-600 focus:ring-blue-500 hover:bg-blue-700 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={createChat}
                   >
                     Enter Chat
