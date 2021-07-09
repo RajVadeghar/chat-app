@@ -12,6 +12,7 @@ import { useSession } from "next-auth/client";
 import firebase from "firebase";
 import { useSidebar } from "../contexts/SidebarContext";
 import useMediaQuery from "../utils/useMediaQuery";
+import FlipMove from "react-flip-move";
 
 function ChatScreen({ chat, messages }) {
   const [width] = useMediaQuery();
@@ -41,7 +42,7 @@ function ChatScreen({ chat, messages }) {
     }
   };
 
-  useEffect(scrollToBottom, [router.query.id]);
+  useEffect(scrollToBottom, [messagesSnapshot]);
 
   const showMessages = () => {
     if (messagesSnapshot) {
@@ -104,7 +105,7 @@ function ChatScreen({ chat, messages }) {
         </div>
       ) : (
         <div className="relative h-full px-5 md:mx-5 no-scrollbar overflow-y-auto">
-          {showMessages()}
+          <FlipMove>{showMessages()}</FlipMove>
           <div className="mb-24 md:mb-28" ref={endOfMessagesRef} />
         </div>
       )}

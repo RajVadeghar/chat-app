@@ -1,13 +1,13 @@
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
-import { Fragment, useState, useRef } from "react";
+import { Fragment, useState, useRef, forwardRef } from "react";
 import db from "../firebase";
 import useMediaQuery from "../utils/useMediaQuery";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
-function Message({ user, message }) {
+const Message = forwardRef(({ user, message }, animationref) => {
   const cancelButtonRef = useRef(null);
   const router = useRouter();
   const [width] = useMediaQuery();
@@ -19,12 +19,12 @@ function Message({ user, message }) {
     setOpen(true);
   };
 
-  const deleteMessage = async (id) => {
+  const deleteMessage = async () => {
     await db
       .collection("chats")
       .doc(router.query.id)
       .collection("messages")
-      .doc(id)
+      .doc(message.id)
       .delete();
   };
 
@@ -34,6 +34,7 @@ function Message({ user, message }) {
 
   return (
     <div
+      ref={animationref}
       // {...bind}
       onDoubleClick={() => sender && setOpen(true)}
       className={`${
@@ -151,6 +152,5 @@ function Message({ user, message }) {
       {message.message}
     </div>
   );
-}
-
+});
 export default Message;

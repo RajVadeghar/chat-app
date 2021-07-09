@@ -17,7 +17,7 @@ function Avatar({ src, email }) {
       )}
     </div>
   ) : (
-    <p className="relative grid place-items-center h-full w-full object-contain text-lg text-white uppercase bg-cyan-700  rounded-full z-50">
+    <p className="whitespace-nowrap relative grid place-items-center h-11 w-11 object-contain text-lg text-white uppercase bg-cyan-700  rounded-full z-50">
       {email?.slice(0, 1)}
       {isAdmin && (
         <BadgeCheckIcon className="absolute bg-blue-700 rounded-full h-5 -top-2 -left-2 z-50 text-white" />
