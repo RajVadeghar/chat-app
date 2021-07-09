@@ -1,9 +1,7 @@
 import { ChevronDownIcon } from "@heroicons/react/outline";
-import axios from "axios";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
 import { Fragment, useState, useRef } from "react";
-import { useLongPress } from "use-long-press";
 import db from "../firebase";
 import useMediaQuery from "../utils/useMediaQuery";
 import { Dialog, Transition } from "@headlessui/react";
@@ -100,7 +98,7 @@ function Message({ user, message }) {
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          By clicking delete button you'll no longer see this
+                          By clicking delete button you will no longer see this
                           message
                         </p>
                       </div>
