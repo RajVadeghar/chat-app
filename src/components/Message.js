@@ -7,7 +7,7 @@ import useMediaQuery from "../utils/useMediaQuery";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
-const Message = forwardRef(({ user, message }, animationref) => {
+function AnimatedMessage({ user, message }, animationref) {
   const cancelButtonRef = useRef(null);
   const router = useRouter();
   const [width] = useMediaQuery();
@@ -152,5 +152,8 @@ const Message = forwardRef(({ user, message }, animationref) => {
       {message.message}
     </div>
   );
-});
+}
+
+const Message = forwardRef(AnimatedMessage);
+
 export default Message;
