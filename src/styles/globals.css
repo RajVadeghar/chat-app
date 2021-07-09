@@ -52,4 +52,12 @@
   .messageInputWidth {
     @apply messageInput;
   }
+
+  .sizing-time {
+    font-size: 0.6rem;
+  }
+
+  .timestamp-size {
+    @apply sizing-time;
+  }
 }

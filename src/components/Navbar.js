@@ -7,7 +7,7 @@ import { useSession } from "next-auth/client";
 import { useCollection } from "react-firebase-hooks/firestore";
 import db from "../firebase";
 import { signOut } from "next-auth/client";
-import { LogoutIcon, MenuAlt1Icon } from "@heroicons/react/outline";
+import { HomeIcon, LogoutIcon, MenuAlt1Icon } from "@heroicons/react/outline";
 import { useRouter } from "next/dist/client/router";
 import { useSidebar } from "../contexts/SidebarContext";
 
@@ -153,6 +153,10 @@ function Navbar() {
         />
       </div>
       <div className="flex space-x-5 items-center">
+        <HomeIcon
+          onClick={() => router.push("/")}
+          className="h-7 cursor-pointer md:hidden"
+        />
         <button
           onClick={() => setOpen(true)}
           className="p-3 px-5 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-3xl outline-none"

@@ -6,6 +6,7 @@ import db from "../firebase";
 import useMediaQuery from "../utils/useMediaQuery";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
+import TimeAge from "timeago-react";
 
 function AnimatedMessage({ user, message }, animationref) {
   const cancelButtonRef = useRef(null);
@@ -41,7 +42,7 @@ function AnimatedMessage({ user, message }, animationref) {
         sender
           ? "dark:bg-gray-700 ml-auto text-left bg-gray-200"
           : "bg-blue-600 text-left text-white opacity-90"
-      } relative p-4 my-3 rounded-lg w-max max-w-xs  sm:max-w-sm md:max-w-md lg:max-w-2xl break-words md:pr-6 md:pt-6 group`}
+      } relative p-2 my-6 rounded-lg w-max max-w-xs  sm:max-w-sm md:max-w-md lg:max-w-2xl break-words md:px-6 group`}
     >
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -150,6 +151,13 @@ function AnimatedMessage({ user, message }, animationref) {
         />
       )}
       {message.message}
+      <span
+        className={`${
+          sender ? "-bottom-4 right-0" : "-bottom-4 left-0"
+        } absolute  timestamp-size opacity-60 whitespace-nowrap  text-gray-800 dark:text-gray-200`}
+      >
+        <TimeAge datetime={message?.timestamp} />
+      </span>
     </div>
   );
 }
