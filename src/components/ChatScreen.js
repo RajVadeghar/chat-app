@@ -41,19 +41,7 @@ function ChatScreen({ chat, messages }) {
     }
   };
 
-  useEffect(() => {
-    const scrollToBottom = () => {
-      try {
-        endOfMessagesRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      } catch (e) {
-        console.warn(e);
-      }
-    };
-    scrollToBottom();
-  }, [messages, messagesSnapshot, router.query.id]);
+  useEffect(scrollToBottom, [router.query.id]);
 
   const showMessages = () => {
     if (messagesSnapshot) {
@@ -116,8 +104,8 @@ function ChatScreen({ chat, messages }) {
         </div>
       ) : (
         <div className="relative h-full px-5 md:mx-5 no-scrollbar overflow-y-auto">
-          <FlipMove>{showMessages()}</FlipMove>
-          <div className="mb-24" ref={endOfMessagesRef} />
+          {showMessages()}
+          <div className="mb-24 md:mb-28" ref={endOfMessagesRef} />
         </div>
       )}
       {/* <ArrowCircleDownIcon
