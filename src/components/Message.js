@@ -3,7 +3,6 @@ import axios from "axios";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
 import { Fragment, useState, useRef } from "react";
-import { useState } from "react";
 import { useLongPress } from "use-long-press";
 import db from "../firebase";
 import useMediaQuery from "../utils/useMediaQuery";
@@ -11,6 +10,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
 function Message({ user, message }) {
+  const cancelButtonRef = useRef(null);
   const router = useRouter();
   const [width] = useMediaQuery();
   const [session] = useSession();

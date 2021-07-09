@@ -1,6 +1,5 @@
 import { useCollection } from "react-firebase-hooks/firestore";
 import {
-  ArrowCircleDownIcon,
   EmojiHappyIcon,
   MicrophoneIcon,
   PaperClipIcon,
@@ -13,7 +12,6 @@ import { useSession } from "next-auth/client";
 import firebase from "firebase";
 import { useSidebar } from "../contexts/SidebarContext";
 import useMediaQuery from "../utils/useMediaQuery";
-import SendIcon from "@material-ui/icons/Send";
 
 function ChatScreen({ chat, messages }) {
   const [width] = useMediaQuery();
