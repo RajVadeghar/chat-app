@@ -12,6 +12,8 @@ function Chat({ session, messages }) {
   const router = useRouter();
   const [chat, setChat] = useState(null);
 
+  console.log(chat);
+
   useEffect(() => {
     const chat = async () => {
       const chatResponse = await db

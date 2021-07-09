@@ -1,14 +1,29 @@
 import { ChevronDownIcon } from "@heroicons/react/outline";
+import axios from "axios";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
+<<<<<<< HEAD
 import { Fragment, forwardRef, useState, useRef } from "react";
+=======
+import { useState } from "react";
+import { useLongPress } from "use-long-press";
+>>>>>>> parent of 9de0354... add animation
 import db from "../firebase";
 import useMediaQuery from "../utils/useMediaQuery";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
+<<<<<<< HEAD
 const Message = ({ user, message }) => {
   const cancelButtonRef = useRef(null);
+=======
+const DELETE_TITLE = "Delete Message";
+const DELETE_MESSAGE =
+  "By clicking delete button you'll no longer see this message";
+const DELETE_BUTTON = "Delete";
+
+function Message({ user, message }) {
+>>>>>>> parent of 9de0354... add animation
   const router = useRouter();
   const [width] = useMediaQuery();
   const [session] = useSession();
@@ -40,7 +55,7 @@ const Message = ({ user, message }) => {
         sender
           ? "dark:bg-gray-700 ml-auto text-left bg-gray-200"
           : "bg-blue-600 text-left text-white opacity-90"
-      } antialiased relative p-4 my-3 rounded-lg w-max max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl break-words h-auto md:pr-6 md:pt-6 group`}
+      } relative p-4 my-3 rounded-lg w-max max-w-xs  sm:max-w-sm md:max-w-md lg:max-w-2xl break-words md:pr-6 md:pt-6 group`}
     >
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -151,6 +166,10 @@ const Message = ({ user, message }) => {
       {message.message}
     </div>
   );
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> parent of 9de0354... add animation
 
 export default Message;
