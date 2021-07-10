@@ -19,6 +19,7 @@ export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ initialTheme, children }) => {
   const [theme, setTheme] = useState(getInitialTheme);
+  const [isMounted, setMounted] = useState(false);
 
   const checkTheme = (existing) => {
     const root = window.document.documentElement;
@@ -37,9 +38,12 @@ export const ThemeProvider = ({ initialTheme, children }) => {
   useEffect(() => {
     const unsubscribe = () => {
       checkTheme(theme);
+      setMounted(true);
     };
     unsubscribe();
   }, [theme]);
+
+  if (!isMounted) return null;
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>

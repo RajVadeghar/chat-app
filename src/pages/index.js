@@ -1,14 +1,15 @@
 import Head from "next/head";
-import { useSession, signIn } from "next-auth/client";
+import { getSession, useSession } from "next-auth/client";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useEffect } from "react";
 import db from "../firebase";
 import firebase from "firebase";
 import WelcomeScreen from "../components/WelcomeScreen";
+import Login from "../components/Login";
 
 export default function Home() {
-  const [session, loading] = useSession();
+  const [session] = useSession();
 
   useEffect(() => {
     if (session) {
@@ -24,14 +25,10 @@ export default function Home() {
     }
   }, []);
 
-  return loading ? (
-    <p className="grid place-items-center h-screen bg-gray-800 text-white">
-      Loading...
-    </p>
-  ) : session ? (
+  return session ? (
     <div>
       <Head>
-        <title>Next App</title>
+        <title>Coding With Raj Chat App</title>
       </Head>
       <div className="bg-gray-200 text-gray-800 dark:text-gray-200 dark:bg-gray-800 transition-all min-h-screen h-auto">
         <Navbar />
@@ -42,6 +39,14 @@ export default function Home() {
       </div>
     </div>
   ) : (
-    signIn()
+    <Login />
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  return {
+    props: { session },
+  };
 }

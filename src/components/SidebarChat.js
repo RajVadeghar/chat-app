@@ -40,7 +40,7 @@ function SidebarChat({ id, users, currentChatId }) {
           <Avatar email={recepientEmail} />
         )}
       </div>
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col space-y-2 z-40">
         <p className="flex-grow">
           {recepient?.name ? recepient?.name : recepientEmail}
         </p>

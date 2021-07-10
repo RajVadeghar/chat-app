@@ -17,7 +17,7 @@ function WelcomeScreen() {
     <div
       className={`${
         visible && "hidden"
-      } grid place-content-center gap-3 w-full screenHeight mx-8`}
+      } grid place-content-center gap-3 w-full screenHeight mx-8 z-50`}
     >
       <div className="flex space-x-6 items-end">
         <Image

@@ -20,7 +20,7 @@ function Sidebar({ id = "" }) {
     <div
       className={`${
         visible ? "w-full inline-block" : "hidden"
-      } md:w-1/4 md:block`}
+      } md:w-1/4 md:block overflow-x-hidden overflow-y-auto`}
     >
       {width < 768 && chatsSnapshot?.docs.length === 0 && (
         <p className="grid place-items-center screenHeight italic text-sm">
