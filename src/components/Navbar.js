@@ -7,7 +7,12 @@ import { useSession } from "next-auth/client";
 import { useCollection } from "react-firebase-hooks/firestore";
 import db from "../firebase";
 import { signOut } from "next-auth/client";
-import { HomeIcon, LogoutIcon, MenuAlt1Icon } from "@heroicons/react/outline";
+import {
+  HomeIcon,
+  LogoutIcon,
+  MenuAlt1Icon,
+  XIcon,
+} from "@heroicons/react/outline";
 import { useRouter } from "next/dist/client/router";
 import { useSidebar } from "../contexts/SidebarContext";
 import useMediaQuery from "../utils/useMediaQuery";
@@ -61,7 +66,7 @@ function Navbar() {
         <Dialog
           as="div"
           static
-          className="fixed z-10 inset-0 overflow-y-auto"
+          className="fixed z-50 inset-0 overflow-y-auto"
           initialFocus={inputRef}
           open={open}
           onClose={setOpen}
@@ -150,10 +155,17 @@ function Navbar() {
         Chat App
       </p>
       <div className="md:hidden">
-        <MenuAlt1Icon
-          onClick={() => setVisible((visible) => !visible)}
-          className="h-7 cursor-pointer"
-        />
+        {!visible ? (
+          <MenuAlt1Icon
+            onClick={() => setVisible((visible) => !visible)}
+            className="h-7 cursor-pointer"
+          />
+        ) : (
+          <XIcon
+            onClick={() => setVisible((visible) => !visible)}
+            className="h-7 cursor-pointer"
+          />
+        )}
       </div>
       <div className="flex space-x-5 items-center">
         <HomeIcon

@@ -48,7 +48,7 @@ function AnimatedMessage({ user, message }, animationref) {
         <Dialog
           as="div"
           static
-          className="fixed z-10 inset-0 overflow-y-auto"
+          className="fixed z-50 inset-0 overflow-y-auto"
           initialFocus={cancelButtonRef}
           open={open}
           onClose={setOpen}
@@ -129,16 +129,7 @@ function AnimatedMessage({ user, message }, animationref) {
           </div>
         </Dialog>
       </Transition.Root>
-      {/* <Modal
-        open={open}
-        setOpen={setOpen}
-        title=""
-        message=""
-        buttonName=""
-        action={}
-        inputBox={false}
-        id={message.id}
-      /> */}
+
       {sender ? (
         <div className="absolute dark:bg-gray-700 bg-gray-200 h-3 w-5 top-0 -right-1  rounded-b-full" />
       ) : (

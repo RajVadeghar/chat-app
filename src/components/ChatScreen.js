@@ -79,6 +79,7 @@ function ChatScreen({ chat, messages }) {
       message,
       user: session?.user.email,
       image: session?.user.name,
+      hasRead: false,
     });
 
     setMessage("");

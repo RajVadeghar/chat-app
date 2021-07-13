@@ -7,18 +7,22 @@ import db from "../firebase";
 import firebase from "firebase";
 import WelcomeScreen from "../components/WelcomeScreen";
 import Login from "../components/Login";
+//
+// Hieee
+//hiii
 
 export default function Home() {
   const [session] = useSession();
 
-  useEffect(() => {
+  useEffect(async () => {
     if (session) {
-      db.collection("users").doc(session.user.email).set(
+      const data = await db
+        ?.collection("users")
+        ?.where("email", "==", session?.user.email)
+        .get();
+      await db?.collection("users")?.doc(data?.docs[0].id).set(
         {
-          email: session.user.email,
           lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
-          image: session.user.image,
-          name: session.user.name,
         },
         { merge: true }
       );
