@@ -45,11 +45,12 @@ function Navbar() {
     setTheme(enabled ? "dark" : "light");
   }, [enabled]);
 
-  const createChat = async (email) => {
+  const createChat = async () => {
     if (!chatAlreadyExists(email) && email !== session?.user.email) {
       const addedUser = await db.collection("chats").add({
         users: [session?.user.email, email],
       });
+      setEmail("");
       router.push(`/chat/${addedUser.id}`);
     }
     setOpen(false);
