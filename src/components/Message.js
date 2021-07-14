@@ -1,4 +1,5 @@
 import { ChevronDownIcon } from "@heroicons/react/outline";
+import { HeartIcon } from "@heroicons/react/solid";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
 import { Fragment, useState, useRef, forwardRef, useEffect } from "react";
@@ -35,7 +36,7 @@ function AnimatedMessage({ user, message, changeReplyRef }, animationref) {
   };
 
   const replyToTheMessage = () => {
-    changeReplyRef(message.id);
+    changeReplyRef(message.id, message.user);
     setOptionsOpen(false);
   };
 
@@ -205,18 +206,30 @@ function AnimatedMessage({ user, message, changeReplyRef }, animationref) {
       </Transition.Root>
 
       {sender ? (
-        <div className="absolute dark:bg-gray-700 bg-gray-200 h-3 w-5 top-0 -right-1  rounded-b-full" />
+        <div
+          className={`${
+            message?.replyMessage && message.message !== "deleted message"
+              ? "dark:bg-gray-800"
+              : "dark:bg-gray-700 bg-gray-200"
+          } absolute h-3 w-5 top-0 -right-1  rounded-b-full`}
+        />
       ) : (
         <div className="absolute bg-blue-600  h-3 w-5 top-0 -left-1 rounded-b-full" />
       )}
 
-      {message?.replyMessage && (
+      {message?.replyMessage && message.message !== "deleted message" && (
         <div
           className={`${
-            sender ? "bg-gray-300 dark:bg-gray-500" : "bg-blue-800"
-          } opacity-80  p-2 mx-1 mt-5`}
+            sender ? "bg-gray-100 dark:bg-gray-900" : "bg-blue-800"
+          } opacity-80 flex`}
         >
-          {message?.replyMessage}
+          <div className="w-2 bg-pink-600 rounded-r-xl" />
+          <div className="flex-1 px-3 p-2">
+            <p className="text-pink-600 text-sm font-semibold py-1">
+              {message?.replyMessageUser}
+            </p>
+            <p>{message?.replyMessage}</p>
+          </div>
         </div>
       )}
       <div className="relative p-2 md:px-6">
@@ -240,6 +253,8 @@ function AnimatedMessage({ user, message, changeReplyRef }, animationref) {
               </p>
             </div>
           )
+        ) : message.message === "♥" ? (
+          <HeartIcon className="h-20 text-red-500 animate-beat" />
         ) : (
           <p>{message.message}</p>
         )}

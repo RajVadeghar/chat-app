@@ -24,6 +24,7 @@ function ChatScreen({ chat, messages }) {
   const router = useRouter();
   const inputRef = useRef();
   const [replyMessage, setReplyMessage] = useState("");
+  const [replyMessageUser, setReplyMessageUser] = useState("");
 
   const [messagesSnapshot] = useCollection(
     db
@@ -33,7 +34,7 @@ function ChatScreen({ chat, messages }) {
       .orderBy("timestamp", "asc")
   );
 
-  const changeReplyRef = async (id) => {
+  const changeReplyRef = async (id, user) => {
     const ref = await db
       .collection("chats")
       .doc(router.query.id)
@@ -41,6 +42,7 @@ function ChatScreen({ chat, messages }) {
       .doc(id)
       .get();
     setReplyMessage(ref.data().message);
+    setReplyMessageUser(user);
     inputRef.current.focus();
   };
 
@@ -99,12 +101,14 @@ function ChatScreen({ chat, messages }) {
       .add({
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         replyMessage,
+        replyMessageUser,
         message,
         user: session?.user.email,
         image: session?.user.name,
         hasRead: [session?.user.email],
       });
 
+    setReplyMessageUser("");
     setReplyMessage("");
     setMessage("");
     scrollToBottom();
