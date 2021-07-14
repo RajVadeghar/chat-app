@@ -8,20 +8,8 @@ import { getSession } from "next-auth/client";
 import db from "../../firebase";
 import getRecepientEmail from "../../utils/getRecepientEmail";
 
-function Chat({ session, messages }) {
+function Chat({ session, messages, chat }) {
   const router = useRouter();
-  const [chat, setChat] = useState(null);
-
-  useEffect(() => {
-    const chat = async () => {
-      const chatResponse = await db
-        .collection("chats")
-        .doc(router.query.id)
-        .get();
-      setChat({ id: chatResponse.id, ...chatResponse.data() });
-    };
-    chat();
-  }, [router.query.id]);
 
   return (
     <div>
@@ -32,7 +20,7 @@ function Chat({ session, messages }) {
         <Navbar chat={chat} />
         <div className="flex screenHeight">
           <Sidebar id={router.query.id} />
-          <ChatScreen messages={messages} />
+          <ChatScreen chat={chat} messages={messages} />
         </div>
       </div>
     </div>
@@ -61,6 +49,9 @@ export async function getServerSideProps(context) {
       timestamp: messages.timestamp.toDate().getTime(),
     }));
 
+  const chatResponse = await db.collection("chats").doc(context.query.id).get();
+  const chat = { id: chatResponse.id, ...chatResponse.data() };
+
   if (!session) {
     return {
       redirect: {
@@ -71,6 +62,6 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: { session, messages: JSON.stringify(messages) },
+    props: { session, messages: JSON.stringify(messages), chat },
   };
 }

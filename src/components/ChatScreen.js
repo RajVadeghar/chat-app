@@ -3,6 +3,7 @@ import {
   EmojiHappyIcon,
   MicrophoneIcon,
   PaperClipIcon,
+  XIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/dist/client/router";
 import db from "../firebase";
@@ -22,6 +23,7 @@ function ChatScreen({ chat, messages }) {
   const [message, setMessage] = useState("");
   const router = useRouter();
   const inputRef = useRef();
+  const [replyMessage, setReplyMessage] = useState("");
 
   const [messagesSnapshot] = useCollection(
     db
@@ -30,6 +32,17 @@ function ChatScreen({ chat, messages }) {
       ?.collection("messages")
       .orderBy("timestamp", "asc")
   );
+
+  const changeReplyRef = async (id) => {
+    const ref = await db
+      .collection("chats")
+      .doc(router.query.id)
+      .collection("messages")
+      .doc(id)
+      .get();
+    setReplyMessage(ref.data().message);
+    inputRef.current.focus();
+  };
 
   const scrollToBottom = () => {
     try {
@@ -55,11 +68,17 @@ function ChatScreen({ chat, messages }) {
             ...message.data(),
             timestamp: message.data().timestamp?.toDate().getTime(),
           }}
+          changeReplyRef={changeReplyRef}
         />
       ));
     } else {
       return JSON.parse(messages).map((message) => (
-        <Message key={message.id} user={message.user} message={message} />
+        <Message
+          key={message.id}
+          user={message.user}
+          message={message}
+          changeReplyRef={changeReplyRef}
+        />
       ));
     }
   };
@@ -74,14 +93,19 @@ function ChatScreen({ chat, messages }) {
       { merge: true }
     );
 
-    db.collection("chats").doc(router.query.id).collection("messages").add({
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      message,
-      user: session?.user.email,
-      image: session?.user.name,
-      hasRead: false,
-    });
+    db.collection("chats")
+      .doc(router.query.id)
+      .collection("messages")
+      .add({
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        replyMessage,
+        message,
+        user: session?.user.email,
+        image: session?.user.name,
+        hasRead: [session?.user.email],
+      });
 
+    setReplyMessage("");
     setMessage("");
     scrollToBottom();
   };
@@ -107,7 +131,10 @@ function ChatScreen({ chat, messages }) {
       ) : (
         <div className="relative h-full px-5 md:mx-5 no-scrollbar overflow-y-auto">
           <FlipMove>{showMessages()}</FlipMove>
-          <div className="mb-24 md:mb-28" ref={endOfMessagesRef} />
+          <div
+            className={`${replyMessage && "md:mb-48"} mb-24 md:mb-28`}
+            ref={endOfMessagesRef}
+          />
         </div>
       )}
       {/* <ArrowCircleDownIcon
@@ -117,28 +144,43 @@ function ChatScreen({ chat, messages }) {
         } absolute bottom-32 bg-cyan-700 rounded-full right-10 h-11 z-50 cursor-pointer`}
       /> */}
 
-      <form className="absolute bottom-0 flex space-x-5 p-4 md:p-5 dark:bg-gray-600 bg-gray-200 rounded-full md:rounded-xl left-0 md:left-5 right-0 md:right-5 m-5">
-        <EmojiHappyIcon className="hidden md:block h-6 cursor-pointer" />
-        <input
-          ref={inputRef}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="flex-grow bg-transparent outline-none px-3"
-          placeholder="Type a message here..."
-          type="text"
-        />
-        <PaperClipIcon className="hidden md:block h-7 cursor-pointer" />
-        <MicrophoneIcon className="hidden md:block h-6 cursor-pointer" />
+      <div className="absolute bottom-0 left-0 md:left-5 right-0 md:right-5 m-5">
+        {replyMessage && (
+          <div className="flex items-center dark:bg-gray-800 bg-gray-400 rounded-full md:rounded-none">
+            <p className="flex-1 bg-transparent md:dark:bg-gray-600 md:bg-gray-300 p-2 md:p-3 m-2">
+              {replyMessage}
+            </p>
+            <div className="p-2 active:bg-gray-500 md:active:bg-transparent rounded-full">
+              <XIcon
+                onClick={() => setReplyMessage("")}
+                className="h-7 cursor-pointer md:mr-2 rounded-full"
+              />
+            </div>
+          </div>
+        )}
+        <form className="flex space-x-5 p-4 md:p-5 dark:bg-gray-600 bg-gray-200 rounded-full md:rounded-xl">
+          <EmojiHappyIcon className="hidden md:block h-6 cursor-pointer" />
+          <input
+            ref={inputRef}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="flex-grow bg-transparent outline-none px-3"
+            placeholder="Type a message here..."
+            type="text"
+          />
+          <PaperClipIcon className="hidden md:block h-7 cursor-pointer" />
+          <MicrophoneIcon className="hidden md:block h-6 cursor-pointer" />
 
-        <button
-          disabled={!message}
-          onClick={sendMessage}
-          type="submit"
-          className="hidden"
-        >
-          Send Message
-        </button>
-      </form>
+          <button
+            disabled={!message || message === "deleted message"}
+            onClick={sendMessage}
+            type="submit"
+            className="hidden"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
