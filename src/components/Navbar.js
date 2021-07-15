@@ -170,7 +170,10 @@ function Navbar() {
       </div>
       <div className="flex space-x-5 items-center">
         <HomeIcon
-          onClick={() => router.push("/")}
+          onClick={() => {
+            router.push("/");
+            setVisible(false);
+          }}
           className={`${
             width < 768 && !visible ? "hidden" : "inline-block"
           } h-7 cursor-pointer md:hidden`}

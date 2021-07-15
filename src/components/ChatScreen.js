@@ -25,7 +25,7 @@ function ChatScreen({ chat, messages }) {
   const inputRef = useRef();
   const [replyMessage, setReplyMessage] = useState("");
   const [replyMessageUser, setReplyMessageUser] = useState("");
-
+  const [replyMessageId, setReplyMessageId] = useState("");
   const [messagesSnapshot] = useCollection(
     db
       ?.collection("chats")
@@ -33,6 +33,19 @@ function ChatScreen({ chat, messages }) {
       ?.collection("messages")
       .orderBy("timestamp", "asc")
   );
+  const [lastMessageid, setLastMessageid] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = db
+      .collection("chats")
+      .doc(router.query.id)
+      .collection("messages")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) =>
+        setLastMessageid(snapshot.docs.map((doc) => doc.id)[0])
+      );
+    return unsubscribe;
+  }, []);
 
   const changeReplyRef = async (id, user) => {
     const ref = await db
@@ -43,6 +56,7 @@ function ChatScreen({ chat, messages }) {
       .get();
     setReplyMessage(ref.data().message);
     setReplyMessageUser(user);
+    setReplyMessageId(id);
     inputRef.current.focus();
   };
 
@@ -64,6 +78,7 @@ function ChatScreen({ chat, messages }) {
       return messagesSnapshot?.docs.map((message) => (
         <Message
           key={message.id}
+          messageid={message.id}
           user={message.data().user}
           message={{
             id: message.id,
@@ -71,15 +86,20 @@ function ChatScreen({ chat, messages }) {
             timestamp: message.data().timestamp?.toDate().getTime(),
           }}
           changeReplyRef={changeReplyRef}
+          lastMessageid={lastMessageid}
+          chat={chat}
         />
       ));
     } else {
       return JSON.parse(messages).map((message) => (
         <Message
           key={message.id}
+          messageid={message.id}
           user={message.user}
           message={message}
           changeReplyRef={changeReplyRef}
+          lastMessageid={lastMessageid}
+          chat={chat}
         />
       ));
     }
@@ -102,12 +122,15 @@ function ChatScreen({ chat, messages }) {
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         replyMessage,
         replyMessageUser,
+        replyMessageId,
         message,
         user: session?.user.email,
-        image: session?.user.name,
+        image: session?.user.image,
+        username: session?.user.name,
         hasRead: [session?.user.email],
       });
 
+    setReplyMessageId("");
     setReplyMessageUser("");
     setReplyMessage("");
     setMessage("");

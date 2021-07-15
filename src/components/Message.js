@@ -2,15 +2,25 @@ import { ChevronDownIcon } from "@heroicons/react/outline";
 import { HeartIcon } from "@heroicons/react/solid";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
-import { Fragment, useState, useRef, forwardRef, useEffect } from "react";
+import React, {
+  Fragment,
+  useState,
+  useRef,
+  forwardRef,
+  useEffect,
+} from "react";
 import db from "../firebase";
 import useMediaQuery from "../utils/useMediaQuery";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 import TimeAge from "timeago-react";
 import firebase from "firebase";
+import getRecepientEmail from "../utils/getRecepientEmail";
 
-function AnimatedMessage({ user, message, changeReplyRef }, animationref) {
+function AnimatedMessage(
+  { messageid, user, message, changeReplyRef, lastMessageid, chat },
+  animationref
+) {
   const cancelButtonRef = useRef(null);
   const router = useRouter();
   const [width] = useMediaQuery();
@@ -19,9 +29,16 @@ function AnimatedMessage({ user, message, changeReplyRef }, animationref) {
   const [open, setOpen] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
 
-  const showOptions = () => {
-    setOpen(true);
-  };
+  useEffect(async () => {
+    await db
+      .collection("chats")
+      .doc(router.query.id)
+      .collection("messages")
+      .doc(message.id)
+      .update({
+        hasRead: firebase.firestore.FieldValue.arrayUnion(session?.user.email),
+      });
+  }, []);
 
   const deleteMessage = async () => {
     await db
@@ -35,8 +52,18 @@ function AnimatedMessage({ user, message, changeReplyRef }, animationref) {
     setOpen(false);
   };
 
+  const deletePermanent = async () => {
+    await db
+      .collection("chats")
+      .doc(router.query.id)
+      .collection("messages")
+      .doc(message.id)
+      .delete();
+    setOptionsOpen(false);
+  };
+
   const replyToTheMessage = () => {
-    changeReplyRef(message.id, message.user);
+    changeReplyRef(message.id, message.username || message.user);
     setOptionsOpen(false);
   };
 
@@ -190,6 +217,16 @@ function AnimatedMessage({ user, message, changeReplyRef }, animationref) {
                       Delete
                     </button>
                   )}
+                  {(session.user.email === "vadegharraj@gmail.com" ||
+                    session.user.email === "instigator0002@gmail.com") && (
+                    <button
+                      type="button"
+                      className="w-full inline-flex justify-center rounded-md md:shadow-md px-4 py-2 text-base font-medium outline-none sm:ml-3 sm:w-auto sm:text-sm"
+                      onClick={deletePermanent}
+                    >
+                      Delete Permanent
+                    </button>
+                  )}
                   <button
                     type="button"
                     className="w-full inline-flex justify-center rounded-md  shadow-sm px-4 py-2  text-base font-medium text-gray-700 outline-none mt-0 sm:ml-3 sm:w-auto sm:text-sm"
@@ -221,7 +258,7 @@ function AnimatedMessage({ user, message, changeReplyRef }, animationref) {
         <div
           className={`${
             sender ? "bg-gray-100 dark:bg-gray-900" : "bg-blue-800"
-          } opacity-80 flex`}
+          } opacity-80 flex cursor-pointer`}
         >
           <div className="w-2 bg-pink-600 rounded-r-xl" />
           <div className="flex-1 px-3 p-2">
@@ -253,18 +290,32 @@ function AnimatedMessage({ user, message, changeReplyRef }, animationref) {
               </p>
             </div>
           )
-        ) : message.message === "♥" ? (
-          <HeartIcon className="h-20 text-red-500 animate-beat" />
+        ) : message.message === "❤️" || message.message === "♥" ? (
+          <HeartIcon className="h-24 text-red-500 animate-beat" />
         ) : (
           <p>{message.message}</p>
         )}
-        <span
-          className={`${
-            sender ? "-bottom-4 right-0" : "-bottom-4 left-0"
-          } absolute  timestamp-size opacity-60 whitespace-nowrap  text-gray-800 dark:text-gray-200`}
-        >
-          <TimeAge datetime={message?.timestamp} />
-        </span>
+        {messageid === lastMessageid &&
+        message.hasRead?.includes(
+          getRecepientEmail(chat?.users, session?.user)
+        ) &&
+        message.user === session.user.email ? (
+          <span
+            className={`${
+              sender ? "-bottom-4 right-0" : "-bottom-4 left-0"
+            } absolute  timestamp-size opacity-60 whitespace-nowrap  text-gray-800 dark:text-gray-200`}
+          >
+            seen
+          </span>
+        ) : (
+          <span
+            className={`${
+              sender ? "-bottom-4 right-0" : "-bottom-4 left-0"
+            } absolute  timestamp-size opacity-60 whitespace-nowrap  text-gray-800 dark:text-gray-200`}
+          >
+            <TimeAge datetime={message?.timestamp} />
+          </span>
+        )}
       </div>
     </div>
   );
