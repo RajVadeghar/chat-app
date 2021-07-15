@@ -8,8 +8,8 @@ function Avatar({ src, email }) {
     <div className="relative">
       <Image
         src={`${src}`}
-        height={110}
-        width={110}
+        height={120}
+        width={120}
         className="cursor-pointer rounded-full"
       />
       {isAdmin && (

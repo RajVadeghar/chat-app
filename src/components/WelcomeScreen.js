@@ -17,7 +17,7 @@ function WelcomeScreen() {
     <div
       className={`${
         visible && "hidden"
-      } grid place-content-center gap-3 w-full screenHeight mx-8 z-50`}
+      } flex-1 bg-coolGray-300 dark:bg-coolGray-900 screenHeight grid place-content-center gap-3`}
     >
       <div className="flex space-x-6 items-end">
         <Image
@@ -40,7 +40,7 @@ function WelcomeScreen() {
       </p>
       <p className=" italic text-sm">
         <span className="font-bold text-lg">Note: </span>
-        You can delete your messages by double clicking them
+        Double click message to check options.
       </p>
     </div>
   );

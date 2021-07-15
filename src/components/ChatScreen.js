@@ -26,6 +26,9 @@ function ChatScreen({ chat, messages }) {
   const [replyMessage, setReplyMessage] = useState("");
   const [replyMessageUser, setReplyMessageUser] = useState("");
   const [replyMessageId, setReplyMessageId] = useState("");
+  const [lastMessageid, setLastMessageid] = useState([]);
+  const [updateEdit, setUpdateEdit] = useState(false);
+  const [updateMessageid, setUpdateMessageid] = useState();
   const [messagesSnapshot] = useCollection(
     db
       ?.collection("chats")
@@ -33,7 +36,6 @@ function ChatScreen({ chat, messages }) {
       ?.collection("messages")
       .orderBy("timestamp", "asc")
   );
-  const [lastMessageid, setLastMessageid] = useState([]);
 
   useEffect(() => {
     const unsubscribe = db
@@ -73,6 +75,34 @@ function ChatScreen({ chat, messages }) {
 
   useEffect(scrollToBottom, [messagesSnapshot]);
 
+  const getUpdateMessageid = async (id) => {
+    const ref = await db
+      .collection("chats")
+      .doc(router?.query.id)
+      .collection("messages")
+      .doc(id)
+      .get();
+    inputRef.current.focus();
+    setReplyMessage(ref.data().message);
+    setUpdateEdit(true);
+    setUpdateMessageid(id);
+  };
+
+  const updateMessage = async (e) => {
+    e.preventDefault();
+    await db
+      .collection("chats")
+      .doc(router?.query.id)
+      .collection("messages")
+      .doc(updateMessageid)
+      .update({
+        message,
+      });
+    setReplyMessage("");
+    setUpdateEdit(false);
+    setMessage("");
+  };
+
   const showMessages = () => {
     if (messagesSnapshot) {
       return messagesSnapshot?.docs.map((message) => (
@@ -88,6 +118,7 @@ function ChatScreen({ chat, messages }) {
           changeReplyRef={changeReplyRef}
           lastMessageid={lastMessageid}
           chat={chat}
+          getUpdateMessageid={getUpdateMessageid}
         />
       ));
     } else {
@@ -100,6 +131,7 @@ function ChatScreen({ chat, messages }) {
           changeReplyRef={changeReplyRef}
           lastMessageid={lastMessageid}
           chat={chat}
+          getUpdateMessageid={getUpdateMessageid}
         />
       ));
     }
@@ -174,12 +206,18 @@ function ChatScreen({ chat, messages }) {
       <div className="absolute bottom-0 left-0 md:left-5 right-0 md:right-5 m-5">
         {replyMessage && (
           <div className="flex items-center dark:bg-gray-800 bg-gray-400 rounded-full md:rounded-none">
+            {updateEdit && (
+              <p className="ml-2 md:ml-4 font-bold uppercase">updating:</p>
+            )}
             <p className="flex-1 bg-transparent md:dark:bg-gray-600 md:bg-gray-300 p-2 md:p-3 m-2">
               {replyMessage}
             </p>
             <div className="p-2 active:bg-gray-500 md:active:bg-transparent rounded-full">
               <XIcon
-                onClick={() => setReplyMessage("")}
+                onClick={() => {
+                  updateMessage && setUpdateEdit(false);
+                  setReplyMessage("");
+                }}
                 className="h-7 cursor-pointer md:mr-2 rounded-full"
               />
             </div>
@@ -200,7 +238,7 @@ function ChatScreen({ chat, messages }) {
 
           <button
             disabled={!message || message === "deleted message"}
-            onClick={sendMessage}
+            onClick={updateEdit ? updateMessage : sendMessage}
             type="submit"
             className="hidden"
           >

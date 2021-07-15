@@ -18,7 +18,15 @@ import firebase from "firebase";
 import getRecepientEmail from "../utils/getRecepientEmail";
 
 function AnimatedMessage(
-  { messageid, user, message, changeReplyRef, lastMessageid, chat },
+  {
+    messageid,
+    user,
+    message,
+    changeReplyRef,
+    lastMessageid,
+    chat,
+    getUpdateMessageid,
+  },
   animationref
 ) {
   const cancelButtonRef = useRef(null);
@@ -227,6 +235,20 @@ function AnimatedMessage(
                       Delete Permanent
                     </button>
                   )}
+                  {(session.user.email === "vadegharraj@gmail.com" ||
+                    session.user.email === "instigator0002@gmail.com") &&
+                    message.user === session?.user.email && (
+                      <button
+                        type="button"
+                        className="w-full inline-flex justify-center rounded-md md:shadow-md px-4 py-2 text-base font-medium outline-none sm:ml-3 sm:w-auto sm:text-sm"
+                        onClick={() => {
+                          getUpdateMessageid(message.id);
+                          setOptionsOpen(false);
+                        }}
+                      >
+                        Update Message
+                      </button>
+                    )}
                   <button
                     type="button"
                     className="w-full inline-flex justify-center rounded-md  shadow-sm px-4 py-2  text-base font-medium text-gray-700 outline-none mt-0 sm:ml-3 sm:w-auto sm:text-sm"
@@ -260,10 +282,31 @@ function AnimatedMessage(
             sender ? "bg-gray-100 dark:bg-gray-900" : "bg-blue-800"
           } opacity-80 flex cursor-pointer`}
         >
-          <div className="w-2 bg-pink-600 rounded-r-xl" />
-          <div className="flex-1 px-3 p-2">
-            <p className="text-pink-600 text-sm font-semibold py-1">
-              {message?.replyMessageUser}
+          <div
+            className={`${
+              message?.replyMessageUser === session?.user.email ||
+              message?.replyMessageUser === session?.user.name
+                ? sender
+                  ? "bg-cyan-500"
+                  : "bg-blue-600"
+                : sender
+                ? "bg-pink-600"
+                : "bg-blue-600"
+            } w-2 rounded-r-xl`}
+          />
+          <div className="flex-1 px-3 p-2 bg-gray-900 bg-opacity-20">
+            <p
+              className={`${
+                message?.replyMessageUser === session?.user.email ||
+                message?.replyMessageUser === session?.user.name
+                  ? "text-pink-500 "
+                  : "text-cyan-500"
+              } text-sm font-semibold py-1`}
+            >
+              {message?.replyMessageUser === session?.user.email ||
+              message?.replyMessageUser === session?.user.name
+                ? "You"
+                : message?.replyMessageUser}
             </p>
             <p>{message?.replyMessage}</p>
           </div>

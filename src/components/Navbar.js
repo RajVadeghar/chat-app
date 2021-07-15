@@ -149,12 +149,14 @@ function Navbar() {
           </div>
         </Dialog>
       </Transition.Root>
-      <p
+      <h1
         onClick={() => router.push("/")}
-        className="hidden md:inline-block text-3xl font-sans font-bold cursor-pointer"
+        className="hidden md:inline-block text-3xl font-bold cursor-pointer text-white"
       >
-        Chat App
-      </p>
+        <span className="bg-gradient-to-r text-transparent bg-clip-text from-pink-700 to-cyan-700 dark:from-pink-500 dark:to-cyan-500">
+          Chat App
+        </span>
+      </h1>
       <div className="md:hidden">
         {!visible ? (
           <MenuAlt1Icon

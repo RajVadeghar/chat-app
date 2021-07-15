@@ -23,12 +23,10 @@ function SidebarChat({ id, users, currentChatId }) {
       .collection("messages")
       .orderBy("timestamp", "desc")
   );
-  const lastUser = chatMessagesSnapshot?.docs[0]?.data();
-
+  const lastMessage = chatMessagesSnapshot?.docs[0]?.data();
   const [recepientSnapshot] = useCollection(
     session && db.collection("users").where("email", "==", recepientEmail)
   );
-
   const recepient = recepientSnapshot?.docs?.[0]?.data();
 
   const enterChat = () => {
@@ -75,35 +73,33 @@ function SidebarChat({ id, users, currentChatId }) {
           </div>
         ) : (
           <div className="flex space-x-1 items-center w-full">
-            {lastUser?.user === session.user.email && (
+            {lastMessage?.user === session.user.email && (
               <p className="text-xs font-bold text-pink-500">You: </p>
             )}
-            {lastUser && (
-              <p className="text-xs italic flex-grow"> {lastUser?.message}</p>
+            {lastMessage &&
+            !lastMessage?.hasRead?.includes(session?.user.email) ? (
+              <p className="text-sm font-bold flex-grow">
+                {lastMessage?.message}
+              </p>
+            ) : (
+              <p className="text-xs italic flex-grow">{lastMessage?.message}</p>
             )}
-            {lastUser?.hasRead?.includes(recepientEmail) &&
-              lastUser?.user === session.user.email && (
+            {lastMessage?.hasRead?.includes(recepientEmail) &&
+              lastMessage?.user === session.user.email && (
                 <div className="flex items-center -space-x-4">
                   <CheckIcon className="h-5 text-pink-500" />
                   <CheckIcon className="h-5 text-pink-500" />
                 </div>
               )}
-            {/* {chatMessages?.map((message) =>
-              message.hasRead?.includes(recepientEmail)
-            ).length !== 0 && (
-              <div className="bg-green-500 p-2 w-9 grid place-items-center rounded-full">
-                <p className="text-white text-xs font-bold">
-                  {
-                    chatMessages?.map((message) =>
-                      message.hasRead?.includes(recepientEmail)
-                    ).length
-                  }
-                </p>
-              </div>
-            )} */}
           </div>
         )}
       </div>
+      {lastMessage && !lastMessage?.hasRead?.includes(session?.user.email) && (
+        <span class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+        </span>
+      )}
     </div>
   );
 }
