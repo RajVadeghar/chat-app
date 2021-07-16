@@ -88,7 +88,7 @@ function AnimatedMessage(
         sender
           ? "dark:bg-gray-700 ml-auto text-left bg-gray-200"
           : "bg-blue-600 text-left text-white opacity-90"
-      } relative my-6 rounded-lg w-max max-w-xs  sm:max-w-sm md:max-w-md lg:max-w-2xl break-words group`}
+      } relative my-6 rounded-lg w-max max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl break-words group p-1`}
     >
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -265,13 +265,7 @@ function AnimatedMessage(
       </Transition.Root>
 
       {sender ? (
-        <div
-          className={`${
-            message?.replyMessage && message.message !== "deleted message"
-              ? "dark:bg-gray-800"
-              : "dark:bg-gray-700 bg-gray-200"
-          } absolute h-3 w-5 top-0 -right-1  rounded-b-full`}
-        />
+        <div className="dark:bg-gray-700 bg-gray-200 absolute h-3 w-5 top-0 -right-1 rounded-b-full" />
       ) : (
         <div className="absolute bg-blue-600  h-3 w-5 top-0 -left-1 rounded-b-full" />
       )}
@@ -280,7 +274,7 @@ function AnimatedMessage(
         <div
           className={`${
             sender ? "bg-gray-100 dark:bg-gray-900" : "bg-blue-800"
-          } opacity-80 flex cursor-pointer`}
+          } opacity-90 flex cursor-pointer rounded-xl`}
         >
           <div
             className={`${
@@ -288,27 +282,31 @@ function AnimatedMessage(
               message?.replyMessageUser === session?.user.name
                 ? sender
                   ? "bg-cyan-500"
-                  : "bg-blue-600"
+                  : "bg-cyan-500"
                 : sender
                 ? "bg-pink-600"
-                : "bg-blue-600"
-            } w-2 rounded-r-xl`}
+                : "bg-pink-500"
+            } w-1 rounded-l-xl`}
           />
-          <div className="flex-1 px-3 p-2 bg-gray-900 bg-opacity-20">
+          <div className="flex-1 px-3 p-1 bg-gray-900 bg-opacity-10">
             <p
               className={`${
                 message?.replyMessageUser === session?.user.email ||
                 message?.replyMessageUser === session?.user.name
-                  ? "text-pink-500 "
-                  : "text-cyan-500"
-              } text-sm font-semibold py-1`}
+                  ? sender
+                    ? "text-cyan-500"
+                    : "text-cyan-400"
+                  : sender
+                  ? "text-pink-500"
+                  : "text-pink-400"
+              } text-xs font-semibold py-1`}
             >
               {message?.replyMessageUser === session?.user.email ||
               message?.replyMessageUser === session?.user.name
                 ? "You"
                 : message?.replyMessageUser}
             </p>
-            <p>{message?.replyMessage}</p>
+            <p className="text-sm">{message?.replyMessage}</p>
           </div>
         </div>
       )}
@@ -345,15 +343,16 @@ function AnimatedMessage(
         message.user === session.user.email ? (
           <span
             className={`${
-              sender ? "-bottom-4 right-0" : "-bottom-4 left-0"
+              sender ? "-bottom-5 right-0" : "-bottom-5 left-0"
             } absolute  timestamp-size opacity-60 whitespace-nowrap  text-gray-800 dark:text-gray-200`}
           >
-            seen
+            <span className="font-bold text-sm">seen</span>{" "}
+            <TimeAge datetime={message?.timestamp} />
           </span>
         ) : (
           <span
             className={`${
-              sender ? "-bottom-4 right-0" : "-bottom-4 left-0"
+              sender ? "-bottom-5 right-0" : "-bottom-5 left-0"
             } absolute  timestamp-size opacity-60 whitespace-nowrap  text-gray-800 dark:text-gray-200`}
           >
             <TimeAge datetime={message?.timestamp} />

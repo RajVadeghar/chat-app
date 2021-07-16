@@ -803,13 +803,13 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
-autoprefixer@^10.2.5:
-  version "10.2.6"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.2.6.tgz#aadd9ec34e1c98d403e01950038049f0eb252949"
-  integrity sha512-8lChSmdU6dCNMCQopIf4Pe5kipkAGj/fvTMslCsih0uHpOrXOPUEVOmYMMqmw3cekQkSD7EhIeuYl5y0BLdKqg==
+autoprefixer@^10.2.6:
+  version "10.3.1"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.3.1.tgz#954214821d3aa06692406c6a0a9e9d401eafbed2"
+  integrity sha512-L8AmtKzdiRyYg7BUXJTzigmhbQRCXFKz6SA1Lqo0+AR2FBbQ4aTAPFSDlOutnFkjhiz8my4agGXog1xlMjPJ6A==
   dependencies:
     browserslist "^4.16.6"
-    caniuse-lite "^1.0.30001230"
+    caniuse-lite "^1.0.30001243"
     colorette "^1.2.2"
     fraction.js "^4.1.1"
     normalize-range "^0.1.2"
@@ -1020,10 +1020,15 @@ camelcase-css@^2.0.1:
   resolved "https://registry.yarnpkg.com/camelcase-css/-/camelcase-css-2.0.1.tgz#ee978f6947914cc30c6b44741b6ed1df7f043fd5"
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
-caniuse-lite@^1.0.30001202, caniuse-lite@^1.0.30001219, caniuse-lite@^1.0.30001228, caniuse-lite@^1.0.30001230:
+caniuse-lite@^1.0.30001202, caniuse-lite@^1.0.30001219, caniuse-lite@^1.0.30001228:
   version "1.0.30001241"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001241.tgz#cd3fae47eb3d7691692b406568d7a3e5b23c7598"
   integrity sha512-1uoSZ1Pq1VpH0WerIMqwptXHNNGfdl7d1cJUFs80CwQ/lVzdhTvsFZCeNFslze7AjsQnb4C85tzclPa1VShbeQ==
+
+caniuse-lite@^1.0.30001243:
+  version "1.0.30001245"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001245.tgz#45b941bbd833cb0fa53861ff2bae746b3c6ca5d4"
+  integrity sha512-768fM9j1PKXpOCKws6eTo3RHmvTUsG9UrpT4WoREFeZgJBTi4/X9g565azS/rVUGtqb8nt7FjLeF5u4kukERnA==
 
 chalk@2.4.2, chalk@^2.0.0:
   version "2.4.2"
@@ -1795,10 +1800,21 @@ fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
   integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
 
-fast-glob@^3.1.1, fast-glob@^3.2.5:
+fast-glob@^3.1.1:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.6.tgz#434dd9529845176ea049acc9343e8282765c6e1a"
   integrity sha512-GnLuqj/pvQ7pX8/L4J84nijv6sAnlwvSDpMkJi9i7nPmPxGtRPkBSStfvDW5l6nMdX9VWe+pkKWFTgD+vF2QSQ==
+  dependencies:
+    "@nodelib/fs.stat" "^2.0.2"
+    "@nodelib/fs.walk" "^1.2.3"
+    glob-parent "^5.1.2"
+    merge2 "^1.3.0"
+    micromatch "^4.0.4"
+
+fast-glob@^3.2.5:
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.7.tgz#fd6cb7a2d7e9aa7a7846111e85a196d6b2f766a1"
+  integrity sha512-rYGMRwip6lUMvYD3BTScMwT1HtAs2d71SMv66Vrxs0IekGZEjhM0pcMfjQPnknBt2zeCwQMEupiN02ZP4DiT1Q==
   dependencies:
     "@nodelib/fs.stat" "^2.0.2"
     "@nodelib/fs.walk" "^1.2.3"
@@ -3270,7 +3286,7 @@ postcss@8.2.13:
     nanoid "^3.1.22"
     source-map "^0.6.1"
 
-postcss@^8.1.6, postcss@^8.2.1, postcss@^8.2.15:
+postcss@^8.1.6, postcss@^8.2.1, postcss@^8.3.5:
   version "8.3.5"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.5.tgz#982216b113412bc20a86289e91eb994952a5b709"
   integrity sha512-NxTuJocUhYGsMiMFHDUkmjSKT3EdH4/WbGF6GCi1NDGk+vbcUTun4fpbOqaPtD8IIsztA2ilZm2DhYCuyN58gA==
@@ -4013,7 +4029,7 @@ table@^6.0.9:
     string-width "^4.2.0"
     strip-ansi "^6.0.0"
 
-tailwindcss@^2.1.2:
+tailwindcss@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-2.2.4.tgz#6a2e259b1e26125aeaa7cdc479963fd217c308b0"
   integrity sha512-OdBCPgazNNsknSP+JfrPzkay9aqKjhKtFhbhgxHgvEFdHy/GuRPo2SCJ4w1SFTN8H6FPI4m6qD/Jj20NWY1GkA==

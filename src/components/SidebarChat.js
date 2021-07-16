@@ -52,7 +52,7 @@ function SidebarChat({ id, users, currentChatId }) {
           <Avatar recepientEmail={recepientEmail} email={recepientEmail} />
         )}
       </div>
-      <div className="flex flex-col space-y-2 z-40 w-full">
+      <div className="flex flex-col space-y-2 z-40 w-full overflow-hidden">
         <p className="flex-grow">
           {recepient?.name ? recepient?.name : recepientEmail}
         </p>
@@ -72,7 +72,7 @@ function SidebarChat({ id, users, currentChatId }) {
             )}
           </div>
         ) : (
-          <div className="flex space-x-1 items-center w-full">
+          <div className="flex space-x-1 items-center w-full overflow-hidden">
             {lastMessage?.user === session.user.email && (
               <p className="text-xs font-bold text-pink-500">You: </p>
             )}
@@ -82,18 +82,18 @@ function SidebarChat({ id, users, currentChatId }) {
                 {lastMessage?.message}
               </p>
             ) : (
-              <p className="text-xs italic flex-grow">{lastMessage?.message}</p>
+              <p className="text-xs flex-grow">{lastMessage?.message}</p>
             )}
-            {lastMessage?.hasRead?.includes(recepientEmail) &&
-              lastMessage?.user === session.user.email && (
-                <div className="flex items-center -space-x-4">
-                  <CheckIcon className="h-5 text-pink-500" />
-                  <CheckIcon className="h-5 text-pink-500" />
-                </div>
-              )}
           </div>
         )}
       </div>
+      {lastMessage?.hasRead?.includes(recepientEmail) &&
+        lastMessage?.user === session.user.email && (
+          <div className="flex items-center -space-x-4">
+            <CheckIcon className="h-5 text-pink-500" />
+            <CheckIcon className="h-5 text-pink-500" />
+          </div>
+        )}
       {lastMessage && !lastMessage?.hasRead?.includes(session?.user.email) && (
         <span className="relative flex h-3 w-3">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>

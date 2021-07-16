@@ -5,7 +5,7 @@ function Avatar({ src, email }) {
   const isAdmin =
     email === "instigator0002@gmail.com" || email === "vadegharraj@gmail.com";
   return src ? (
-    <div className="relative">
+    <div className="relative h-11 w-11">
       <Image
         src={`${src}`}
         height={120}
