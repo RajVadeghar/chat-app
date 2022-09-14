@@ -28,7 +28,7 @@ export default function Home() {
   return session ? (
     <div>
       <Head>
-        <title>Coding With Raj Chat App</title>
+        <title>Coding With Raj-Chat App</title>
       </Head>
       <div className="bg-gray-200 text-gray-800 dark:text-gray-200 dark:bg-gray-800 transition-all min-h-screen h-auto">
         <Navbar />
